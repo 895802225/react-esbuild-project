@@ -1,18 +1,18 @@
 {
-    "name": "react-checkbox",
-    "version": "4.0.0",
+    "name": "react-esbuild-project",
+    "version": "1.0.0",
     "description": "corp cross-platform react district component",
     "scripts": {
         "watch": "esbuild src/app.jsx --outfile=build/index.js --bundle --watch",
-        "ts-types": " tsc --emitDeclarationOnly --outDir lib",
-        "start": " node ./esbuild.js",
+        "tsw": "tsc --w",
+        "start": " node ./esbuild.js && npm run tsw",
         "build": "rm -rf lib && node ./esbuild.js && npm run ts-types"
     },
     "main": "lib/checkbox.js",
     "module": "lib/checkbox.js",
     "types": "lib/checkbox.d.ts",
     "files": [
-        "lib"
+        "dist"
     ],
     "dependencies": {
         "react": "^18.1.0",

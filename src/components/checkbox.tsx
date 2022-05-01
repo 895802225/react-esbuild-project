@@ -1,4 +1,5 @@
-import { ReactElement, CSSProperties, ChangeEvent } from "react";
+import React from "react";
+import { ChangeEvent, CSSProperties, ReactElement } from "react";
 
 export interface CheckboxProps {
   checked?: boolean;
@@ -9,7 +10,7 @@ export interface CheckboxProps {
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
-const Checkbox = ({
+export const Checkbox = ({
   checked = false,
   indeterminate = false,
   className = "",
