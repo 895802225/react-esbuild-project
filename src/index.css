@@ -1,9 +1,14 @@
 
-@import 'antd/dist/antd.css';
+/* @import 'antd/dist/antd.css'; */
 
 html body {
     margin: 0;
     padding: 0;
+}
+#root {
+    margin: 10px;
+    width: 100%;
+    height: 100%;
 }
 .esbuild {
     font-size: 40px;

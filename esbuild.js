@@ -49,12 +49,12 @@ esbuild
       postCssPlugin({
         plugins: [
           postCssImport,
-          postcsspx2rem({
-            remUnit: 75,
-            //过滤border 不转换
-            propList: ["border"],
-            exclude: /node_modules/i,
-          }),
+          // postcsspx2rem({
+          //   remUnit: 75,
+          //   //过滤border 不转换
+          //   propList: ["border"],
+          //   exclude: /node_modules/i,
+          // }),
         ],
       }),
     ],
@@ -74,6 +74,8 @@ esbuild
        <meta http-equiv="X-UA-Compatible" content="IE=edge">
        <meta name="viewport" content="width=device-width, initial-scale=1.0">
        <link rel="stylesheet" href="./index.css">
+       <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+       <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
      </head>
      <body>
        <div id="root"></div>
@@ -88,7 +90,6 @@ esbuild
         resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
         recalc = function () {
           var clientWidth = root.getBoundingClientRect().width;
-          root.style.fontSize = Math.min(100 ,( clientWidth / 10 )) + "px";	
         };
         window.addEventListener(resizeEvt, recalc, false);
         return recalc();
