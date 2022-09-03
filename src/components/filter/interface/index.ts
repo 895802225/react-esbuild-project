@@ -12,7 +12,7 @@ export interface IState {
 // transfer 中转经停
 export interface ITransfer {
   default: string;
-  tansferList: ICheckList[];
+  transferList: ITransferList[];
   /**
    * hh-mm
    */
@@ -20,15 +20,14 @@ export interface ITransfer {
 }
 
 export enum EnumTransfer {
-  All = "All", // 默认选中any number of stops，不限不回显状态
+  Any = "any", // 默认选中any number of stops，不限不回显状态
   NonStop = "NonStop", // 仅直飞，选中时stopover duration置灰
   Stop1Few = "Stop1Few",
   Stop2Few = "Stop2Few",
 }
 
-export interface ITransferList {
-  key: EnumTransfer;
-  value: string; // 文案
+export interface ITransferList extends ICheckList {
+  key: EnumTransfer;  
 }
 
 // time 时间筛选

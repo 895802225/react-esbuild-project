@@ -11,6 +11,7 @@ import {
   ITime,
   ITransfer,
 } from "../interface";
+import { getDefaultFilter, setDefaultFilter } from "./constant";
 
 export interface IContext {
   state: IState;
@@ -26,7 +27,8 @@ export const defaultContext: IContext = {
 };
 
 export type Action =
-  | { type: "reset" }
+  | { type: "resetAll" }
+  | { type: "resetOne"; key: keyof IState}
   | { type: "init"; state: IState }
   | { type: "transfer"; transfer: ITransfer }
   | { type: "time"; time: ITime }
@@ -42,7 +44,10 @@ export const initReducer = (state: IState, action: Action) => {
     // case "reset":
     //   return defaultContext.state;
     case "init":
+      setDefaultFilter(action.state);
       return { ...action.state };
+    case "resetAll": 
+      return {...state, ...getDefaultFilter()}
     case "transfer":
       return { ...state, transfer: action.transfer };
     case "time":
@@ -59,6 +64,8 @@ export const initReducer = (state: IState, action: Action) => {
       return { ...state, transfer: action.sort };
     case "price":
       return { ...state, transfer: action.price };
+    case "resetOne":
+      return {...state, [action.key]: getDefaultFilter()?.[action.key] }
     default:
       return state;
   }
