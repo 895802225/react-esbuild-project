@@ -1,4 +1,4 @@
-import React, { ReactElement, useContext, useReducer } from "react";
+import React, { ReactElement, useContext, useReducer, useState } from "react";
 import { MyContext, useFilterState } from "../../reducer/reduce";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
@@ -12,14 +12,16 @@ import MenuItem from "@material-ui/core/MenuItem";
 import MenuList from "@material-ui/core/MenuList";
 import { useSetVisible } from "../../hooks/setVisible";
 import { ITransfer, ITransferList } from "../../interface";
-import { Checkbox, Icon, IconButton, SvgIcon } from "@material-ui/core";
+import { Checkbox, Icon, IconButton, Slider, SvgIcon } from "@material-ui/core";
 
 export const Transfer = (): ReactElement => {
   const { visible, setvisibleFalse, setvisibleTrue } = useSetVisible();
   const transferRef = React.useRef(null);
   const { state, dispatch } = useFilterState();
   const { transfer } = state;
-  const resetTransfer = () => {
+  const [value, setValue] = useState(0);
+  const resetTransfer = (event: any) => {
+    event.stopPropagation();
     dispatch({ type: "resetOne", key: "transfer" });
   };
 
@@ -48,6 +50,13 @@ export const Transfer = (): ReactElement => {
     }
     setvisibleFalse();
   };
+  const handleChange = (event, newValue: number | number[]) => {
+    if(typeof newValue === 'number') {
+        console.log('newValue', newValue)
+        setValue(newValue);
+    }
+  };
+
 
   return (
     <>
@@ -60,7 +69,7 @@ export const Transfer = (): ReactElement => {
         {transfer?.default}
         <ArrowDropDownIcon />
         {/* 删除按钮 */}
-        <Icon onClick={resetTransfer}>
+        <Icon onClick={(event) => resetTransfer(event)}>
           HighlightOff
         </Icon>
       </Button>
@@ -96,6 +105,11 @@ export const Transfer = (): ReactElement => {
                       );
                     })}
                   </MenuList>
+                  <div>
+                    <div>{'Stopover Duration'}</div>
+                    <div>{transfer?.duration}</div>
+                    <Slider min={0} max={96} value={value} step={1} onChange={handleChange} aria-labelledby="continuous-slider" />
+                  </div>
                 </div>
               </ClickAwayListener>
             </Paper>
