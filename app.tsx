@@ -1,6 +1,7 @@
 import React, { ReactElement } from "react";
 import { render } from "react-dom";
-import { DDD} from  './src/index';
+import { NearCity } from  './src/index';
+import { Alert } from './src/components/alert'
 import { createTheme, responsiveFontSizes } from '@material-ui/core/styles';
 import Button from "@material-ui/core/Button";
 
@@ -14,10 +15,8 @@ theme = responsiveFontSizes(theme);
 function App(): ReactElement {
   return (
     <>
-        <DDD />
-        <Button variant="contained" color="primary">
-      你好，世界
-    </Button>
+        <NearCity />
+        {/* <Alert /> */}
     </>
   );
 }

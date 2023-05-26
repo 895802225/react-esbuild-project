@@ -8,20 +8,13 @@ const path = require("path");
 const serve = require("koa-static");
 const Koa = require("koa");
 const fse = require("fs-extra");
-const postCssPlugin2 = require("esbuild-plugin-postcss2");
-const postCssPlugin = require("@deanc/esbuild-plugin-postcss");
-
-const postCssImport = require("postcss-import");
-const cssModulesPlugin = require("esbuild-css-modules-plugin");
-const autoprefixer = require("autoprefixer");
 const postcsspx2rem = require("postcss-px2rem-exclude");
 const app = new Koa();
+const sass = require("sass");
+const postcss = require("postcss");
 
 // 启动编译好后自动刷新浏览器
 
-const livereload = require("livereload");
-const lrserver = livereload.createServer();
-lrserver.watch(__dirname + "/dist");
 // 使用静态服务
 app.use(serve(path.join(__dirname + "/dist")));
 
@@ -43,20 +36,44 @@ esbuild
       },
     },
     format: "esm",
-    // plugins: [cssModulesPlugin()],
-
+    loader: {
+      ".scss": "text",
+      ".eot": "file",
+      ".woff": "file",
+      ".ttf": "file",
+    },
+    watch: {
+      onRebuild(error, result) {
+        if (error) console.error("watch build failed:", error);
+        else console.log("watch build succeeded:", result);
+      },
+    },
     plugins: [
-      postCssPlugin({
-        plugins: [
-          postCssImport,
-          // postcsspx2rem({
-          //   remUnit: 75,
-          //   //过滤border 不转换
-          //   propList: ["border"],
-          //   exclude: /node_modules/i,
-          // }),
-        ],
-      }),
+      {
+        name: "scss",
+        setup(build) {
+          build.onLoad({ filter: /\.scss$/ }, async (args) => {
+            const { css } = sass.renderSync({
+              file: args.path,
+            });
+            const result = await postcss([
+              postcsspx2rem({
+                remUnit: 75,
+                //过滤border 不转换
+                propList: ["border"],
+                exclude: /node_modules/i,
+              }),
+            ]).process(css.toString(), {
+              from: args.path,
+              to: args.path,
+            });
+            return {
+              contents: result.css,
+              loader: "css",
+            };
+          });
+        },
+      },
     ],
   })
   .then(async (res) => {
@@ -84,12 +101,11 @@ esbuild
     <script>
  
     (function (doc) {
-      document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] +
-      ':35729/livereload.js?snipver=1"></' + 'script>');
       var root = doc.querySelector("html");
         resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
         recalc = function () {
           var clientWidth = root.getBoundingClientRect().width;
+          root.style.fontSize = Math.min(100, (clientWidth / 10)) + "px";
         };
         window.addEventListener(resizeEvt, recalc, false);
         return recalc();

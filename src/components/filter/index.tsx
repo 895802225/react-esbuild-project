@@ -45,6 +45,12 @@ export const Filter = (): ReactElement => {
                 checked: false,
                 disabled: false
               }
+              ,{
+                key: EnumTransfer.aaa,
+                value: '偶遇过',
+                checked: true,
+                disabled: false
+              }
             ],
             duration: '00-00'
         };
@@ -55,6 +61,7 @@ export const Filter = (): ReactElement => {
         <MyContext.Provider value={{state, dispatch}}>
             {/* <div>{state.count}</div> */}
             {/* <div onClick={add}> 增加3</div> */}
+            <Transfer />
             <Transfer />
             <Airport></Airport>
             <Time />

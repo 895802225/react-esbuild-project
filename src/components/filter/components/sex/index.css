@@ -1,0 +1,32 @@
+.gender-selector {
+    width: 100%;
+    margin: 0 auto;
+    text-align: center;
+  }
+  
+  .gender-selector .buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  
+  .gender-selector button {
+    width: 100px;
+    height: 50px;
+    border-radius: 25px;
+    font-size: 20px;
+    cursor: pointer;
+  }
+  
+  .gender-selector .male {
+    background-color: lightblue;
+  }
+  
+  .gender-selector .female {
+    background-color: pink;
+  }
+  
+  .gender-selector .selected-gender {
+    font-size: 20px;
+  }
+  
